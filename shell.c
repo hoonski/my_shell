@@ -9,13 +9,13 @@
 
 int cmd_cd(int argc, char* argv[]);
 int my_mkdir(int argc, char* argv[]);
+void cmd_cd_back(char* path);
+char my_pwd();
 
 int main(void) {
 	char *args[MAX_LEN / 2 + 1]; /* command line arguments */
 	char *path[MAX_LEN];
 	char *path_cur[MAX_LEN];
-	char *tmp[MAX_LEN / 3];
-	int path_index = 0;
 	int should_run = 1;          /* flag to determine when to exit program */
 	int background = 0;
 
@@ -23,8 +23,7 @@ int main(void) {
 	int status;
   
 	while(should_run){
-		if(path!=NULL) printf("hoons%s> ",path);
-		else printf("hoons> ");
+		printf("hoons$ ");
 		fflush(stdout);
 		
 		input = (char *)malloc(MAX_LEN*sizeof(char));
@@ -45,41 +44,78 @@ int main(void) {
     		}
 		if(!strcmp(args[0],"cd")) {
 			//Go to subdirectory
-			if(cmd_cd(i,args)==1) {
-				strcat(path, "/");
-				strcat(path, args[1]);
-			//	strcmp(path_cur[path_index],args[1]);
-			//	path_index++;
-		/*	}else if(cmd_cd(i,args)==2) {
-				cmd_cd(1,args);
-				for(int k=0;k<path_index;k++){
-					strcmp(tmp[1],path_cur[path_index]);
-					cmd_cd(i,tmp);
-				}*/
+			int tmp;
+			tmp = cmd_cd(i,args);
+			if(tmp==1) {
+				cmd_cd_back(my_pwd());
 			}
-
-		}
+		}		
 		else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
-
+		else if(!strcmp(args[0],"pwd")) my_pwd();
 	}
+}
+
+void go_home(){
+	chdir(getenv("HOME"));
+	chdir("Desktop");
+	chdir("shell");
+}
+
+char my_pwd(){
+	char buf[255];
+	getcwd(buf,255);
+	printf("%s\n",buf);
+	return buf;
 }
 
 int cmd_cd( int argc, char* argv[]){ //cd : change directory
 	if( argc == 1 )
-		chdir( getenv( "HOME" ) );
+		go_home();
 	else if( argc == 2 ){
 		if( chdir( argv[1] )==-1)
 			printf( "No directory\n" );
 		else if(strcmp(argv[1],"..")==0){
-			printf("test\n");
-			return 2;
-		}
-		else
 			return 1;
+		}
+		else{
+			return 0;
+		}
 	}
 	else
 		printf( "USAGE: cd [dir]\n" );
 	return 0;
+}
+/*
+char* strtok_cur_path(char* path){
+	printf("bcd");
+	char* tmp[MAX_LEN/2];
+	int i = 0;
+	tmp[i] = strtok(path,"/");
+	printf("abc");
+	while(tmp[i] != NULL){
+		i++;
+	tmp[i] = strtok(NULL, "/");
+	}
+	return tmp;
+}
+*/
+void cmd_cd_back(char* path){
+	char* tmp[MAX_LEN/2];
+        int i = 0,tmpint=0;
+        tmp[i] = strtok(path,"/");
+        while(tmp[i] != NULL){
+                i++;
+                tmp[i] = strtok(NULL, "/");
+	//	printf("%s+",tmp[i]);
+        }
+	go_home();
+	if(i==1){
+		return ;
+	}
+	while(tmpint < i-1){
+		chdir(tmp[tmpint]);
+		tmpint++;
+	}
 }
 
 int my_mkdir(int argc, char* argv[]){
