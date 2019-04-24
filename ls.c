@@ -19,3 +19,19 @@ void ls() {
 	free(cwd);
 	closedir(dir);
 }
+/*
+void ls_mod(int mode){
+	if(mode == 1){
+		file_mode = file_info.st_mode;
+		rwx(file_mode);
+		printf("%d ", file_info.st_nlink);
+
+		my_passwd = getpwuid(file_info.st_uid);
+		my_group = getgrgid(file_info.st_gid);
+		printf("%s ", my_passwd->pw_name);
+		printf("%s ", my_group->gr_name);
+		printf("%d ", file_info.st_size);
+	}
+	
+}
+*/

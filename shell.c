@@ -7,16 +7,14 @@ int my_mkdir(int argc, char* argv[]);
 
 int main(void) {
 	char *args[MAX_LEN / 2 + 1]; /* command line arguments */
-	char *path[MAX_LEN];
-	char *path_cur[MAX_LEN];
 	int should_run = 1;          /* flag to determine when to exit program */
-	int background = 0;
-
+	
 	char *input;
 	int status;
-  
+
 	while(should_run){
-		printf("hoons$ ");
+		printf("hoons:~/");
+		location_cur();
 		fflush(stdout);
 		
 		input = (char *)malloc(MAX_LEN*sizeof(char));
@@ -28,6 +26,7 @@ int main(void) {
 			i++;
 			args[i] = strtok(NULL, " ");
 		}
+		
 		//Removing array '\n' at last index
 		for(int j=0; args[i-1][j] != '\0'; j++){
 			if(args[i-1][j] == '\n'){
@@ -35,10 +34,23 @@ int main(void) {
                 		break;
         		}
     		}
-		if(!strcmp(args[0],"cd")) cmd_cd(i,args);
-		else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
-		else if(!strcmp(args[0],"pwd")) my_pwd();
-		else if(!strcmp(args[0],"ls")) ls();
+
+		pid_t pid = fork();
+		if (pid < 0) {
+			perror("Fork error");
+			exit(0);
+		}
+
+		if (pid == 0) {
+			if(!strcmp(args[0],"cd")) cmd_cd(i,args);
+	                else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
+        	        else if(!strcmp(args[0],"pwd")) my_pwd();
+                	else if(!strcmp(args[0],"ls")) ls();
+		}
+
+		if (pid > 0) {
+			waitpid(pid, &status, 0);
+		}
 	}
 }
 

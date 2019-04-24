@@ -19,12 +19,30 @@ int cmd_cd( int argc, char* argv[]){ //cd : change directory
 	else if( argc == 2 ){
 		if( chdir( argv[1] )==-1)
 			printf( "No directory\n" );
-		else{
-			return 0;
-		}
 	}
 	else
 		printf( "USAGE: cd [dir]\n" );
 	return 0;
+}
+
+void location_cur(){
+	char* path[MAX_LEN];
+	char input[MAX_LEN];
+	int path_len, i=0;
+	getcwd(input,255);
+
+	path[i] = strtok(input, "/");
+	while (path[i] != NULL) {
+		i++;
+		path[i] = strtok(NULL, "/");
+	}
+	
+	path_len = i-1;
+	if(path_len == 1){
+		printf("%s$ ",path[path_len]);
+		return ;
+	}
+	printf("%s/%s$ ",path[path_len-1],path[path_len]);
+
 }
 	
