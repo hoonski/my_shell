@@ -1,16 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <sys/stat.h>
+#include "cd_pw.c"
+#include "ls.c"
 
 #define MAX_LEN 100 /* The maximum length command */
 
-int cmd_cd(int argc, char* argv[]);
 int my_mkdir(int argc, char* argv[]);
-void cmd_cd_back(char* path);
-char my_pwd();
 
 int main(void) {
 	char *args[MAX_LEN / 2 + 1]; /* command line arguments */
@@ -42,79 +35,10 @@ int main(void) {
                 		break;
         		}
     		}
-		if(!strcmp(args[0],"cd")) {
-			//Go to subdirectory
-			int tmp;
-			tmp = cmd_cd(i,args);
-			if(tmp==1) {
-				cmd_cd_back(my_pwd());
-			}
-		}		
+		if(!strcmp(args[0],"cd")) cmd_cd(i,args);
 		else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
 		else if(!strcmp(args[0],"pwd")) my_pwd();
-	}
-}
-
-void go_home(){
-	chdir(getenv("HOME"));
-	chdir("Desktop");
-	chdir("shell");
-}
-
-char my_pwd(){
-	char buf[255];
-	getcwd(buf,255);
-	printf("%s\n",buf);
-	return buf;
-}
-
-int cmd_cd( int argc, char* argv[]){ //cd : change directory
-	if( argc == 1 )
-		go_home();
-	else if( argc == 2 ){
-		if( chdir( argv[1] )==-1)
-			printf( "No directory\n" );
-		else if(strcmp(argv[1],"..")==0){
-			return 1;
-		}
-		else{
-			return 0;
-		}
-	}
-	else
-		printf( "USAGE: cd [dir]\n" );
-	return 0;
-}
-/*
-char* strtok_cur_path(char* path){
-	printf("bcd");
-	char* tmp[MAX_LEN/2];
-	int i = 0;
-	tmp[i] = strtok(path,"/");
-	printf("abc");
-	while(tmp[i] != NULL){
-		i++;
-	tmp[i] = strtok(NULL, "/");
-	}
-	return tmp;
-}
-*/
-void cmd_cd_back(char* path){
-	char* tmp[MAX_LEN/2];
-        int i = 0,tmpint=0;
-        tmp[i] = strtok(path,"/");
-        while(tmp[i] != NULL){
-                i++;
-                tmp[i] = strtok(NULL, "/");
-	//	printf("%s+",tmp[i]);
-        }
-	go_home();
-	if(i==1){
-		return ;
-	}
-	while(tmpint < i-1){
-		chdir(tmp[tmpint]);
-		tmpint++;
+		else if(!strcmp(args[0],"ls")) ls();
 	}
 }
 
