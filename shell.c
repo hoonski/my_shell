@@ -1,6 +1,6 @@
 #include "cd_pw.c"
 #include "ls.c"
-
+#include "key.c"
 #define MAX_LEN 100 /* The maximum length command */
 
 int my_mkdir(int argc, char* argv[]);
@@ -15,10 +15,11 @@ int main(void) {
 	while(should_run){
 		printf("hoons:~/");
 		location_cur();
+	
 		fflush(stdout);
-		
-		input = (char *)malloc(MAX_LEN*sizeof(char));
+                input = (char *)malloc(MAX_LEN*sizeof(char));
 		fgets(input, MAX_LEN, stdin);
+		if(strchr(input, '\t') != NULL) chdir("a");
 		
 		int i = 0;
 		args[i] = strtok(input, " ");
@@ -34,7 +35,7 @@ int main(void) {
                 		break;
         		}
     		}
-
+		
 		pid_t pid = fork();
 		if (pid < 0) {
 			perror("Fork error");

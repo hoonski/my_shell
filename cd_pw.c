@@ -20,6 +20,16 @@ int cmd_cd( int argc, char* argv[]){ //cd : change directory
 		if( chdir( argv[1] )==-1)
 			printf( "No directory\n" );
 	}
+	else if(argc>2){
+		int count = 1;
+		while(count < argc){
+			if(chdir(argv[count])==-1){
+				printf("%s in No directory\n",argv[count]);
+				return 0;
+			}
+			count++;
+		}
+	}
 	else
 		printf( "USAGE: cd [dir]\n" );
 	return 0;
