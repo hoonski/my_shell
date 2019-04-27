@@ -1,6 +1,6 @@
 #include "cd_pw.c"
 #include "ls.c"
-#include "key.c"
+#include "read_txt.c"
 #define MAX_LEN 100 /* The maximum length command */
 
 int my_mkdir(int argc, char* argv[]);
@@ -46,7 +46,8 @@ int main(void) {
 			if(!strcmp(args[0],"cd")) cmd_cd(i,args);
 	                else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
         	        else if(!strcmp(args[0],"pwd")) my_pwd();
-                	else if(!strcmp(args[0],"ls")) ls();
+			else if(!strcmp(args[0],"txt")) read_file(args[1]);
+                	else if(!strcmp(args[0],"ls")) ls(args);
 		}
 
 		if (pid > 0) {
