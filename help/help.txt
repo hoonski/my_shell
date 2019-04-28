@@ -1,0 +1,13 @@
+Name       : Kwon YoungHoon
+Student #  : 2017011612
+Department : Software
+Project    : My shell
+
+Shell has some command made by younghoon.
+Shell places "/Desktop/shell" as a base location.
+
+Command List : pwd, ls, cd, txt, edit, rm, cp
+
+To get more information about the command "-command name" after "help"
+Ex) help -ls
+

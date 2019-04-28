@@ -1,0 +1,6 @@
+Command cd is change directory.
+
+[Usage]
+cd "directory name"
+cd "directory name"/"directory name" is also possible
+cd .. is go back

@@ -1,0 +1,4 @@
+Command pwd is showing current directory path.
+
+[Usage]
+pwd

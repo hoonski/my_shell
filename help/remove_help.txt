@@ -1,0 +1,7 @@
+Command remove is removing file and directory.
+
+[Usage]
+rm "filename"
+rm "directory name"
+
+

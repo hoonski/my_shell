@@ -16,3 +16,12 @@ void read_file(char* pathfile){
 		free(fp);
 	}
 }
+void edit(char* pathname){
+	char tmp[20]="vi ";
+	int i = 0;
+	while(pathname[i]!='\0'){
+		tmp[i+3] = pathname[i];
+		i++;
+	}
+	system(tmp);
+}

@@ -1,6 +1,9 @@
 #include "cd_pw.c"
 #include "ls.c"
 #include "read_txt.c"
+#include "help.c"
+#include "remove.c"
+#include "cp.c"
 #define MAX_LEN 100 /* The maximum length command */
 
 int my_mkdir(int argc, char* argv[]);
@@ -8,10 +11,12 @@ int my_mkdir(int argc, char* argv[]);
 int main(void) {
 	char *args[MAX_LEN / 2 + 1]; /* command line arguments */
 	int should_run = 1;          /* flag to determine when to exit program */
-	
+		
 	char *input;
 	int status;
-
+	
+	system("clear");
+	read_file("./help/help.txt");
 	while(should_run){
 		printf("hoons:~/");
 		location_cur();
@@ -19,7 +24,6 @@ int main(void) {
 		fflush(stdout);
                 input = (char *)malloc(MAX_LEN*sizeof(char));
 		fgets(input, MAX_LEN, stdin);
-		if(strchr(input, '\t') != NULL) chdir("a");
 		
 		int i = 0;
 		args[i] = strtok(input, " ");
@@ -27,7 +31,6 @@ int main(void) {
 			i++;
 			args[i] = strtok(NULL, " ");
 		}
-		
 		//Removing array '\n' at last index
 		for(int j=0; args[i-1][j] != '\0'; j++){
 			if(args[i-1][j] == '\n'){
@@ -35,7 +38,6 @@ int main(void) {
                 		break;
         		}
     		}
-		
 		pid_t pid = fork();
 		if (pid < 0) {
 			perror("Fork error");
@@ -43,11 +45,16 @@ int main(void) {
 		}
 
 		if (pid == 0) {
-			if(!strcmp(args[0],"cd")) cmd_cd(i,args);
+			if(!strcmp(args[0],"help")) help(args);
+			else if(!strcmp(args[0],"cd")) cmd_cd(i,args); 
 	                else if(!strcmp(args[0],"mkdir")) my_mkdir(i,args);
-        	        else if(!strcmp(args[0],"pwd")) my_pwd();
+                	else if(!strcmp(args[0],"pwd")) my_pwd();
 			else if(!strcmp(args[0],"txt")) read_file(args[1]);
-                	else if(!strcmp(args[0],"ls")) ls(args);
+			else if(!strcmp(args[0],"ls")) ls(args);
+			else if(!strcmp(args[0],"cls")) system("clear");
+			else if(!strcmp(args[0],"edit")) edit(args[1]);
+			else if(!strcmp(args[0],"rm")) my_remove(args[1]);
+			else if(!strcmp(args[0],"cp")) my_cp(args);
 		}
 
 		if (pid > 0) {

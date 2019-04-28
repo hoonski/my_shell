@@ -1,0 +1,13 @@
+Command ls is showing file and directory in current directory.
+
+option 
+0. no option : showing directory.
+1. -mod : whether it is a file or a directory.
+2. -aut : showing authority.
+3. -all : showing -mod and -aut.
+
+[Usage]
+ls
+ls -mod
+ls -aut
+ls -all

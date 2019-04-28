@@ -1,0 +1,7 @@
+Command mkdir is make directory.
+
+File made by this command has 0777 authority.
+
+[Usage]
+mkdir "directory name"
+

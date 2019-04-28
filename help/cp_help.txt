@@ -1,0 +1,5 @@
+Command cp is copying file A to file B.
+B contents are copied by A.
+
+[Usage]
+cp "filename1" "filename2"

@@ -1,0 +1,6 @@
+Command edit is playing create, modify, write.
+
+This command use system(vi).
+
+[Usage]
+edit "filename"
